@@ -1,6 +1,6 @@
 <template>
   <div class="uploader-box">
-  <input type="file" @change="chooseFiles" :accept="accept">
+    <input type="file" @change="chooseFiles" :accept="accept">
   </div>
 </template>
 

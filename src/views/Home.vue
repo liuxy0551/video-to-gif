@@ -100,7 +100,7 @@ export default {
     },
     // 下载按钮
     download () {
-
+      alert('敬请期待')
     }
   },
   mounted () {
