@@ -1,12 +1,14 @@
 <template>
   <div>
-    1234
+    <video-to-gif />
   </div>
 </template>
 
 <script>
+import VideoToGif from '@/components/VideoToGif'
 
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: { VideoToGif }
 }
 </script>
