@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div class="video-to-gif">
+    <img :src="url" alt="">
+  </div>
 </template>
 
 <script>
@@ -8,11 +10,13 @@ import gifshot from 'gifshot'
 export default {
   name: 'VideoToGif',
   props: {
-
+    options: {
+      type: Object
+    }
   },
   data () {
     return {
-
+      url: ''
     }
   },
   computed: {
@@ -31,26 +35,19 @@ export default {
       }
     },
     // 创建 GIF
-    createGIF () {
-      let options = {
-        video: ['http://media.liuxianyu.cn/node-n.mp4'],
-        // video: ['http://anniversary-test.oss-cn-hangzhou.aliyuncs.com/video/node-n.mp4'],
-        gifWidth: 840,
-        gifHeight: 500,
-        numFrames: 5
-        // numFrames: 90
-      }
+    createGIF (options) {
+      let start = new Date()
       gifshot.createGIF(options, obj => {
-        let image = obj.image
-        let animatedImage = document.createElement('img')
-        animatedImage.src = image
-        document.body.appendChild(animatedImage)
+        if (!obj.error) {
+          let url = obj.image
+          this.url = url
+          console.log((new Date() - start) / 1000)
+        }
       })
     }
   },
   mounted () {
     // this.existingVideoGIFSupported()
-    this.createGIF()
 
     if (!this.isSupported) {
       alert('当前浏览器不支持后续操作，请更换浏览器后再试！')
@@ -58,3 +55,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.video-to-gif {
+  max-width: 1000px;
+  max-height: 800px;
+  padding-top: 20px;
+}
+</style>
