@@ -90,31 +90,27 @@ export default {
         customClass: 'loading-icon',
         background: 'rgba(0, 0, 0, 0.6)'
       })
-      let { video, gifWidth, gifHeight, numFrames } = this.options
-      if (!video) {
-        return alert('请输入视频链接')
-      }
-      if (!gifWidth) {
-        return alert('请输入 GIF 宽度')
-      }
-      if (!gifHeight) {
-        return alert('请输入 GIF 高度')
-      }
-      if (!numFrames) {
-        return alert('请输入视频时长')
-      }
-
       this.optionsDone = Object.assign({}, this.options, { video: [this.options.video], numFrames: this.options.numFrames * 10 })
       this.$refs['gifRef'].createGIF(this.optionsDone, this.loading)
     },
     // 暂存 gif 的 base64
-    save(base64) {
+    save(base64, start) {
       this.base64 = base64
-      var eqTagIndex = this.base64.indexOf('=')
-      this.base64 = eqTagIndex === -1 ? this.base64 : this.base64.substring(0, eqTagIndex)
-      var strLen = this.base64.length
+
+      // 文件大小
+      var eqTagIndex = base64.indexOf('=')
+      let file = eqTagIndex === -1 ? base64 : base64.substring(0, eqTagIndex)
+      var strLen = file.length
       var fileSize = strLen - (strLen / 8) * 2
-      alert(`文件大小：${ Math.round(fileSize / 1024 / 1024 * 100) / 100 }M`)
+      this.$message.info(`文件大小：${ Math.round((fileSize / 1024 / 1024) * 100) / 100 }M`)
+
+      // 耗时
+      this.$notify({
+        title: '成功',
+        message: `耗时 ${ new Date() - start } ms`,
+        type: 'success'
+      })
+      this.loading.close()
     },
     // 下载按钮
     download() {

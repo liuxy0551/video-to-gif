@@ -35,18 +35,12 @@ export default {
       }
     },
     // 创建 GIF
-    createGIF(options, loading) {
+    createGIF(options) {
       let start = new Date()
       gifshot.createGIF(options, obj => {
         if (!obj.error) {
           this.url = obj.image
-          this.$emit('save', obj.image)
-          this.$notify({
-            title: '成功',
-            message: `耗时 ${ (new Date() - start) } ms`,
-            type: 'success'
-          })
-          loading.close()
+          this.$emit('save', obj.image, start)
         }
       })
     }
