@@ -11,7 +11,7 @@
           <input class="w440" type="text" v-model="options.video" placeholder="请输入视频链接" maxlength="200" />
         </div>
         <div class="flex-row">
-          <div class="label">视频时长：</div>
+          <div class="label">GIF 时长：</div>
           <input class="w140" type="text" v-model="options.numFrames" placeholder="视频时长，单位：s" maxlength="3" />
         </div>
         <div class="flex-row">
@@ -29,10 +29,10 @@
       <div class="btn-box">
         <button @click="reset">重 置</button>
         <button :disabled="doneDisabled" @click="done">确 认</button>
-        <button @click="download">下 载</button>
+        <button @click="download" v-if="base64">下 载</button>
       </div>
 
-      <video-to-gif :options="optionsDone" ref="gifRef" />
+      <video-to-gif :options="optionsDone" @save="save" ref="gifRef" />
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@
 <script>
 import VideoToGif from '@/components/VideoToGif'
 import Uploader from '@/components/Uploader'
+import downloadFileByBase64 from '@/utils/downloadFileByBase64'
 
 export default {
   name: 'Home',
@@ -54,7 +55,8 @@ export default {
       },
       optionsTemp: null,
       optionsDone: null,
-      loading: null
+      loading: null,
+      base64: null
     }
   },
   computed: {
@@ -105,9 +107,18 @@ export default {
       this.optionsDone = Object.assign({}, this.options, { video: [this.options.video], numFrames: this.options.numFrames * 10 })
       this.$refs['gifRef'].createGIF(this.optionsDone, this.loading)
     },
+    // 暂存 gif 的 base64
+    save(base64) {
+      this.base64 = base64
+      var eqTagIndex = this.base64.indexOf('=')
+      this.base64 = eqTagIndex === -1 ? this.base64 : this.base64.substring(0, eqTagIndex)
+      var strLen = this.base64.length
+      var fileSize = strLen - (strLen / 8) * 2
+      alert(`文件大小：${ Math.round(fileSize / 1024 / 1024 * 100) / 100 }M`)
+    },
     // 下载按钮
     download() {
-      alert('敬请期待')
+      downloadFileByBase64(this.base64, 'my.gif')
     }
   },
   mounted() {
@@ -165,19 +176,19 @@ export default {
 </style>
 
 <style lang="scss">
-  .loading-icon {
-    .el-loading-spinner i {
-      color: #fff;
-      font-size: 30px;
-      padding-bottom: 5px;
-    }
-    .path {
-      stroke: #fff;
-    }
-    .el-loading-text {
-      color: #fff;
-      font-size: 24px;
-      padding-top: 10px;
-    }
+.loading-icon {
+  .el-loading-spinner i {
+    color: #fff;
+    font-size: 30px;
+    padding-bottom: 5px;
   }
+  .path {
+    stroke: #fff;
+  }
+  .el-loading-text {
+    color: #fff;
+    font-size: 24px;
+    padding-top: 10px;
+  }
+}
 </style>

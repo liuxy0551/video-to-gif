@@ -39,8 +39,8 @@ export default {
       let start = new Date()
       gifshot.createGIF(options, obj => {
         if (!obj.error) {
-          let url = obj.image
-          this.url = url
+          this.url = obj.image
+          this.$emit('save', obj.image)
           this.$notify({
             title: '成功',
             message: `耗时 ${ (new Date() - start) } ms`,
