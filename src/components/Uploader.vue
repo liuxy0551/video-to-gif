@@ -1,6 +1,6 @@
 <template>
   <div class="uploader-box">
-    <input type="file" @change="chooseFiles" :accept="accept">
+    <input type="file" @change="chooseFiles" :accept="accept" />
   </div>
 </template>
 
@@ -18,18 +18,16 @@ export default {
       default: 15
     }
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
   computed: {
-    fileMaxSize () {
+    fileMaxSize() {
       return this.maxSize * 1024 * 1024
     }
   },
   methods: {
-    chooseFiles (e) {
+    chooseFiles(e) {
       let file = e.target.files[0]
       if (file.size > this.fileMaxSize) {
         return alert('文件过大')

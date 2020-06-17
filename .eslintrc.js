@@ -15,6 +15,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'prefer-const': 0,
     'no-useless-catch': 'off',
-    'dot-notation': [0, { allowKeywords: true }]
+    'dot-notation': [0, { allowKeywords: true }],
+    'space-before-function-paren': [2, 'never'],
+    'template-curly-spacing': [2, 'always']
   }
 }

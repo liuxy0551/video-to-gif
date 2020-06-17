@@ -4,6 +4,10 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
+import { Loading } from 'element-ui'
+Vue.use(Loading.directive)
+Vue.prototype.$loading = Loading.service
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -43,7 +43,7 @@ import Uploader from '@/components/Uploader'
 
 export default {
   name: 'Home',
-  data () {
+  data() {
     return {
       options: {
         video: 'http://media.liuxianyu.cn/node-n.mp4',
@@ -53,11 +53,12 @@ export default {
         numFrames: 1
       },
       optionsTemp: null,
-      optionsDone: null
+      optionsDone: null,
+      loading: null
     }
   },
   computed: {
-    doneDisabled () {
+    doneDisabled() {
       if (!this.options.video) {
         return true
       }
@@ -75,12 +76,18 @@ export default {
   },
   methods: {
     // 重置按钮
-    reset () {
+    reset() {
       this.options = Object.assign({}, this.optionsTemp)
       this.$refs['gifRef'].url = ''
     },
     // 确认按钮
-    done () {
+    done() {
+      this.loading = this.$loading({
+        lock: true,
+        text: '转换中，请稍等...',
+        customClass: 'loading-icon',
+        background: 'rgba(0, 0, 0, 0.6)'
+      })
       let { video, gifWidth, gifHeight, numFrames } = this.options
       if (!video) {
         return alert('请输入视频链接')
@@ -96,14 +103,14 @@ export default {
       }
 
       this.optionsDone = Object.assign({}, this.options, { video: [this.options.video], numFrames: this.options.numFrames * 10 })
-      this.$refs['gifRef'].createGIF(this.optionsDone)
+      this.$refs['gifRef'].createGIF(this.optionsDone, this.loading)
     },
     // 下载按钮
-    download () {
+    download() {
       alert('敬请期待')
     }
   },
-  mounted () {
+  mounted() {
     this.optionsTemp = { ...this.options }
   },
   components: { VideoToGif, Uploader }
@@ -155,4 +162,22 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="scss">
+  .loading-icon {
+    .el-loading-spinner i {
+      color: #fff;
+      font-size: 30px;
+      padding-bottom: 5px;
+    }
+    .path {
+      stroke: #fff;
+    }
+    .el-loading-text {
+      color: #fff;
+      font-size: 24px;
+      padding-top: 10px;
+    }
+  }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="video-to-gif">
-    <img :src="url" alt="">
+    <img :src="url" alt="" />
   </div>
 </template>
 
@@ -14,20 +14,20 @@ export default {
       type: Object
     }
   },
-  data () {
+  data() {
     return {
       url: ''
     }
   },
   computed: {
     // 当前浏览器是否支持 gifshot 动画的 GIF 选项
-    isSupported () {
+    isSupported() {
       return gifshot.isSupported()
     }
   },
   methods: {
     // 检测浏览器当前支持的视频文件扩展名
-    existingVideoGIFSupported () {
+    existingVideoGIFSupported() {
       let extensions = ['mp4', 'ogsg', 'ogv', 'webm', 'mov']
       for (let i of extensions) {
         let bool = gifshot.isExistingVideoGIFSupported([i])
@@ -35,18 +35,23 @@ export default {
       }
     },
     // 创建 GIF
-    createGIF (options) {
+    createGIF(options, loading) {
       let start = new Date()
       gifshot.createGIF(options, obj => {
         if (!obj.error) {
           let url = obj.image
           this.url = url
-          console.log((new Date() - start) / 1000)
+          this.$notify({
+            title: '成功',
+            message: `耗时 ${ (new Date() - start) } ms`,
+            type: 'success'
+          })
+          loading.close()
         }
       })
     }
   },
-  mounted () {
+  mounted() {
     // this.existingVideoGIFSupported()
 
     if (!this.isSupported) {
