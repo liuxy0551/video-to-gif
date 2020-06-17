@@ -28,11 +28,11 @@ export default {
   methods: {
     // 检测浏览器当前支持的视频文件扩展名
     existingVideoGIFSupported() {
-      let extensions = ['mp4', 'ogsg', 'ogv', 'webm', 'mov']
+      /* let extensions = ['mp4', 'ogsg', 'ogv', 'webm', 'mov']
       for (let i of extensions) {
         let bool = gifshot.isExistingVideoGIFSupported([i])
         console.log(i, bool)
-      }
+      } */
     },
     // 创建 GIF
     createGIF(options) {

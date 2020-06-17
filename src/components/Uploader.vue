@@ -33,10 +33,10 @@ export default {
         return alert('文件过大')
       }
 
-      console.log(file)
+      // console.log(file)
       let fd = new FormData()
       fd.append('attach', file)
-      console.log(fd)
+      // console.log(fd)
     }
   }
 }

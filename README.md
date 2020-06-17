@@ -1,4 +1,8 @@
-# compress
+# video-to-gif
+
+## Demo
+
+https://liuxy0551.github.io/video-to-gif/
 
 ## Project setup
 ```
