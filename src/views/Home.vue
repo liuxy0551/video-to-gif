@@ -12,7 +12,8 @@
         </div>
         <div class="flex-row">
           <div class="label">GIF 时长：</div>
-          <input class="w140" type="text" v-model="options.numFrames" placeholder="视频时长，单位：s" maxlength="3" />
+          <input class="w140" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
+          <div class="tip" v-if="options.numFrames">预计等待{{ 3 * options.numFrames }}秒</div>
         </div>
         <div class="flex-row">
           <div class="flex-row">
@@ -57,6 +58,13 @@ export default {
       optionsDone: null,
       loading: null,
       base64: null
+    }
+  },
+  watch: {
+    'options.numFrames': {
+      handler(nv, ov) {
+        this.options.numFrames = nv.slice(0, 3)
+      }
     }
   },
   computed: {
@@ -114,7 +122,8 @@ export default {
     },
     // 下载按钮
     download() {
-      downloadFileByBase64(this.base64, 'my.gif')
+      let list = this.options.video.split('/')
+      downloadFileByBase64(this.base64, list[list.length - 1].split('.')[0])
     }
   },
   mounted() {
@@ -147,6 +156,11 @@ export default {
       input {
         font-size: 16px;
         padding: 8px 10px;
+      }
+      .tip {
+        font-size: 14px;
+        opacity: 0.7;
+        padding-left: 10px;
       }
       .w440 {
         width: 440px;
