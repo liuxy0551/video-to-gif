@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/video-to-gif/precache-manifest.a8ac8fc38ba24b8ba680d2a1fdfc5ca1.js"
+  "/video-to-gif/precache-manifest.e61b8451299a8414e30b982c0ed2f959.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "video-to-gif"});

@@ -13,7 +13,7 @@
         <div class="flex-row">
           <div class="label">GIF 时长：</div>
           <input class="w140" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
-          <div class="tip" v-if="options.numFrames">预计等待{{ 3 * options.numFrames }}秒</div>
+          <div class="tip" v-if="options.numFrames">建议20秒内，预计等待{{ 3 * options.numFrames }}秒</div>
         </div>
         <div class="flex-row">
           <div class="flex-row">
@@ -49,7 +49,6 @@ export default {
     return {
       options: {
         video: 'http://media.liuxianyu.cn/node-n.mp4',
-        // vodep: 'http://anniversary-test.oss-cn-hangzhou.aliyuncs.com/video/node-n.mp4',
         gifWidth: 840,
         gifHeight: 500,
         numFrames: 1
@@ -61,9 +60,29 @@ export default {
     }
   },
   watch: {
+    'options.video': {
+      handler(nv, ov) {
+        localStorage.setItem('video', nv)
+      }
+    },
+    'options.gifWidth': {
+      handler(nv, ov) {
+        localStorage.setItem('gifWidth', nv)
+      }
+    },
+    'options.gifHeight': {
+      handler(nv, ov) {
+        localStorage.setItem('gifHeight', nv)
+      }
+    },
     'options.numFrames': {
       handler(nv, ov) {
-        this.options.numFrames = nv.slice(0, 3)
+        if (nv < 0) {
+          this.options.numFrames = '0'
+        } else {
+          this.options.numFrames = nv.slice(0, 3)
+        }
+        localStorage.setItem('numFrames', this.options.numFrames)
       }
     }
   },
@@ -85,10 +104,11 @@ export default {
     }
   },
   methods: {
-    // 重置按钮
+    // 重置按钮 - 清除缓存
     reset() {
       this.options = Object.assign({}, this.optionsTemp)
       this.$refs['gifRef'].url = ''
+      localStorage.clear()
     },
     // 确认按钮
     done() {
@@ -128,6 +148,11 @@ export default {
   },
   mounted() {
     this.optionsTemp = { ...this.options }
+
+    let list = ['video', 'gifWidth', 'gifHeight', 'numFrames']
+    for (let i of list) {
+      localStorage.getItem(i) && (this.options[i] = localStorage.getItem(i))
+    }
   },
   components: { VideoToGif, Uploader }
 }
