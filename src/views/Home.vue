@@ -8,21 +8,21 @@
       <div class="form-box">
         <div class="flex-row">
           <div class="label">视频链接：</div>
-          <input class="w440" type="text" v-model="options.video" placeholder="请输入视频链接" maxlength="200" />
+          <el-input class="w440" type="text" v-model="options.video" placeholder="请输入以https开头的视频链接" clearable maxlength="200" />
         </div>
         <div class="flex-row">
           <div class="label">GIF 时长：</div>
-          <input class="w110" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
+          <el-input class="w110" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
           <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
         </div>
         <div class="flex-row">
           <div class="flex-row">
             <div class="label">宽度：</div>
-            <input class="w110" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4" />
+            <el-input class="w110" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4" />
           </div>
           <div class="flex-row l35">
             <div class="label">高度：</div>
-            <input class="w110" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4" />
+            <el-input class="w110" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4" />
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       options: {
-        video: 'https://liuxy0551.github.io/video-to-gif/demo.mp4',
+        video: 'https://liuxianyu.cn//assets/demo.mp4',
         gifWidth: 540,
         gifHeight: 430,
         numFrames: 4
@@ -178,10 +178,6 @@ export default {
         width: 80px;
         text-align: left;
       }
-      input {
-        font-size: 16px;
-        padding: 8px 10px;
-      }
       .tip {
         font-size: 14px;
         opacity: 0.7;
@@ -201,6 +197,7 @@ export default {
 
   .btn-box {
     width: 340px;
+    margin-left: -40px;
     display: flex;
     justify-content: space-between;
     button {

@@ -60,5 +60,9 @@ export default {
   max-width: 1000px;
   max-height: 800px;
   padding-top: 20px;
+  img {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.5);
+  }
 }
 </style>
