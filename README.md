@@ -1,6 +1,6 @@
 # video-to-gif
 
-## Demo
+## 在线示例
 
 https://liuxy0551.github.io/video-to-gif/
 
@@ -17,11 +17,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
 
 ### Customize configuration

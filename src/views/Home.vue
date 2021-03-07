@@ -3,7 +3,7 @@
     <uploader v-if="false" />
 
     <div class="content-box">
-      <div class="title">视频转 GIF</div>
+      <div class="title">视频转换成 GIF</div>
 
       <div class="form-box">
         <div class="flex-row">
@@ -12,24 +12,24 @@
         </div>
         <div class="flex-row">
           <div class="label">GIF 时长：</div>
-          <input class="w140" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
-          <div class="tip" v-if="options.numFrames">建议20秒内，预计等待{{ 3 * options.numFrames }}秒</div>
+          <input class="w110" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
+          <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
         </div>
         <div class="flex-row">
           <div class="flex-row">
             <div class="label">宽度：</div>
-            <input class="w140" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4" />
+            <input class="w110" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4" />
           </div>
           <div class="flex-row l35">
             <div class="label">高度：</div>
-            <input class="w140" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4" />
+            <input class="w110" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4" />
           </div>
         </div>
       </div>
 
       <div class="btn-box">
         <button @click="reset">重 置</button>
-        <button :disabled="doneDisabled" @click="done">确 认</button>
+        <button :disabled="doneDisabled" @click="done">转 换</button>
         <button @click="download" v-if="base64">下 载</button>
       </div>
 
@@ -48,10 +48,10 @@ export default {
   data() {
     return {
       options: {
-        video: 'http://media.liuxianyu.cn/node-n.mp4',
-        gifWidth: 840,
-        gifHeight: 500,
-        numFrames: 1
+        video: 'https://liuxy0551.github.io/video-to-gif/demo.mp4',
+        gifWidth: 540,
+        gifHeight: 430,
+        numFrames: 4
       },
       optionsTemp: null,
       optionsDone: null,
@@ -130,7 +130,7 @@ export default {
       let file = eqTagIndex === -1 ? base64 : base64.substring(0, eqTagIndex)
       var strLen = file.length
       var fileSize = strLen - (strLen / 8) * 2
-      this.$message.info(`文件大小：${ Math.round((fileSize / 1024 / 1024) * 100) / 100 }M`)
+      this.$message.success(`生成的 GIF 文件大小：${ Math.round((fileSize / 1024 / 1024) * 100) / 100 }M`)
 
       // 耗时
       this.$notify({
@@ -188,10 +188,10 @@ export default {
         padding-left: 10px;
       }
       .w440 {
-        width: 440px;
+        width: 460px;
       }
-      .w140 {
-        width: 140px;
+      .w110 {
+        width: 110px;
       }
       .l35 {
         margin-left: 35px;
