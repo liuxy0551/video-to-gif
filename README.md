@@ -4,6 +4,11 @@
 
 https://liuxy0551.github.io/video-to-gif/
 
+
+>**注意**
+>* **建议 clone 项目本地运行**
+
+
 ## Project setup
 ```
 npm install

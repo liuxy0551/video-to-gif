@@ -32,7 +32,7 @@
             <template slot="append">秒</template>
           </el-input>
         </div>
-        <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
+        <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于网速和电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
       </div>
 
       <div class="btn-box">
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       options: {
-        video: 'https://liuxianyu.cn//assets/gif.mp4',
+        video: 'https://liuxy0551.github.io/assets/gif.mp4',
         gifWidth: 540,
         gifHeight: 400,
         numFrames: 3
