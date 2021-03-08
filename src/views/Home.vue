@@ -56,10 +56,10 @@ export default {
   data() {
     return {
       options: {
-        video: 'https://liuxianyu.cn//assets/demo.mp4',
+        video: 'https://liuxianyu.cn//assets/gif.mp4',
         gifWidth: 540,
-        gifHeight: 430,
-        numFrames: 2
+        gifHeight: 400,
+        numFrames: 3
       },
       optionsTemp: null,
       optionsDone: null,
