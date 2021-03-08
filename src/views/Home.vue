@@ -51,7 +51,7 @@ export default {
         video: 'https://liuxianyu.cn//assets/demo.mp4',
         gifWidth: 540,
         gifHeight: 430,
-        numFrames: 4
+        numFrames: 2
       },
       optionsTemp: null,
       optionsDone: null,
@@ -134,7 +134,7 @@ export default {
 
       // 耗时
       this.$notify({
-        title: '成功',
+        title: '转换成功',
         message: `耗时 ${ new Date() - start } ms`,
         type: 'success'
       })
