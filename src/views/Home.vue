@@ -6,25 +6,33 @@
       <div class="title">视频转换成 GIF</div>
 
       <div class="form-box">
-        <div class="flex-row">
+        <div class="flex-row padding">
           <div class="label">视频链接：</div>
           <el-input class="w440" type="text" v-model="options.video" placeholder="请输入以https开头的视频链接" clearable maxlength="200" />
         </div>
-        <div class="flex-row">
-          <div class="label">GIF 时长：</div>
-          <el-input class="w110" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s" />
-          <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
-        </div>
-        <div class="flex-row">
+
+        <div class="flex-row padding">
           <div class="flex-row">
             <div class="label">宽度：</div>
-            <el-input class="w110" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4" />
+            <el-input class="w172" type="text" v-model="options.gifWidth" placeholder="宽度，如：800" maxlength="4">
+              <template slot="append">px</template>
+            </el-input>
           </div>
           <div class="flex-row l35">
             <div class="label">高度：</div>
-            <el-input class="w110" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4" />
+            <el-input class="w172" type="text" v-model="options.gifHeight" placeholder="高度，如：600" maxlength="4">
+              <template slot="append">px</template>
+            </el-input>
           </div>
         </div>
+
+        <div class="flex-row">
+          <div class="label">GIF 时长：</div>
+          <el-input class="w172" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s">
+            <template slot="append">秒</template>
+          </el-input>
+        </div>
+        <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
       </div>
 
       <div class="btn-box">
@@ -173,26 +181,30 @@ export default {
     .flex-row {
       display: flex;
       align-items: center;
-      padding-bottom: 20px;
+      &.padding {
+        padding-bottom: 20px;
+      }
       .label {
         width: 80px;
         text-align: left;
       }
-      .tip {
-        font-size: 14px;
-        opacity: 0.7;
-        padding-left: 10px;
-      }
       .w440 {
         width: 460px;
       }
-      .w110 {
-        width: 110px;
+      .w172 {
+        width: 172px;
       }
       .l35 {
         margin-left: 35px;
       }
     }
+  }
+
+  .tip {
+    font-size: 14px;
+    opacity: 0.7;
+    text-align: left;
+    margin: 4px 0 40px 80px;
   }
 
   .btn-box {
