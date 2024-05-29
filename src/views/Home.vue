@@ -28,17 +28,24 @@
 
         <div class="flex-row">
           <div class="label">GIF 时长：</div>
-          <el-input class="w172" type="number" v-model="options.numFrames" placeholder="视频时长，单位：s">
-            <template slot="append">秒</template>
-          </el-input>
+          <el-input class="w172" type="text" v-model="options.numFrames" placeholder="秒" maxlength="4">
+              <template slot="append">秒</template>
+            </el-input>
         </div>
-        <div class="tip" v-if="options.numFrames">建议20秒内，等待时间取决于网速和电脑性能，预计等待{{ 3 * options.numFrames }}秒</div>
+        <div class="tip">
+          等待时间取决于网速和电脑性能
+          <span v-if="+options.numFrames !== 0">，预计等待 {{ options.numFrames }} ~ {{ 3 * options.numFrames }} 秒</span>
+        </div>
+        <div class="duration" v-if="duration">
+          结果：已进行 {{ (duration / 1000).toFixed(1) }} 秒
+          <span v-if="fileSize">，生成的 GIF 文件大小：{{Math.round((fileSize / 1024 / 1024) * 100) / 100}}M</span>
+        </div>
       </div>
 
       <div class="btn-box">
-        <button @click="reset">重 置</button>
-        <button :disabled="doneDisabled" @click="done">转 换</button>
-        <button @click="download" v-if="base64">下 载</button>
+        <el-button @click="reset">重 置</el-button>
+        <el-button type="success" @click="download" v-if="base64">下 载</el-button>
+        <el-button type="primary" :disabled="doneDisabled" @click="convert" v-else>转 换</el-button>
       </div>
 
       <video-to-gif :options="optionsDone" @save="save" ref="gifRef" />
@@ -50,6 +57,7 @@
 import VideoToGif from '@/components/VideoToGif'
 import Uploader from '@/components/Uploader'
 import downloadFileByBase64 from '@/utils/downloadFileByBase64'
+import { clearInterval } from 'timers';
 
 export default {
   name: 'Home',
@@ -64,7 +72,10 @@ export default {
       optionsTemp: null,
       optionsDone: null,
       loading: null,
-      base64: null
+      base64: null,
+      duration: 0,
+      fileSize: 0,
+      timer: null
     }
   },
   watch: {
@@ -116,10 +127,18 @@ export default {
     reset() {
       this.options = Object.assign({}, this.optionsTemp)
       this.$refs['gifRef'].url = ''
+      this.base64 = null
+      this.duration = 0
+      this.fileSize = 0
       localStorage.clear()
     },
+    // 停止计时器
+    stopTimer() {
+      window.clearInterval(this.timer)
+      this.timer = null
+    },
     // 确认按钮
-    done() {
+    convert() {
       this.loading = this.$loading({
         lock: true,
         text: '转换中，请稍等...',
@@ -127,10 +146,16 @@ export default {
         background: 'rgba(0, 0, 0, 0.6)'
       })
       this.optionsDone = Object.assign({}, this.options, { video: [this.options.video], numFrames: this.options.numFrames * 10 })
+
+      const startTime = new Date().getTime()
+      this.timer = window.setInterval(() => {
+        this.duration = new Date().getTime() - startTime
+      }, 100)
       this.$refs['gifRef'].createGIF(this.optionsDone, this.loading)
     },
     // 暂存 gif 的 base64
-    save(base64, start) {
+    save(base64) {
+      this.stopTimer()
       this.base64 = base64
 
       // 文件大小
@@ -138,12 +163,13 @@ export default {
       let file = eqTagIndex === -1 ? base64 : base64.substring(0, eqTagIndex)
       var strLen = file.length
       var fileSize = strLen - (strLen / 8) * 2
-      this.$message.success(`生成的 GIF 文件大小：${ Math.round((fileSize / 1024 / 1024) * 100) / 100 }M`)
+      this.fileSize = fileSize
+      // this.$message.success(`生成的 GIF 文件大小：${Math.round((this.fileSize / 1024 / 1024) * 100) / 100}M`)
 
       // 耗时
       this.$notify({
         title: '转换成功',
-        message: `耗时 ${ new Date() - start } ms`,
+        message: `耗时 ${this.duration} ms`,
         type: 'success'
       })
       this.loading.close()
@@ -204,17 +230,19 @@ export default {
     font-size: 14px;
     opacity: 0.7;
     text-align: left;
-    margin: 4px 0 40px 80px;
+    margin: 10px 0 0 80px;
+  }
+  .duration {
+    font-size: 14px;
+    text-align: left;
+    margin: 10px 0 0 80px;
   }
 
   .btn-box {
     width: 340px;
-    margin-left: -40px;
+    margin: 24px 0 24px -40px;
     display: flex;
     justify-content: space-between;
-    button {
-      padding: 5px 30px;
-    }
   }
 }
 </style>

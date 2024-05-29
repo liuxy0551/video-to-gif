@@ -36,11 +36,10 @@ export default {
     },
     // 创建 GIF
     createGIF(options) {
-      let start = new Date()
       gifshot.createGIF(options, obj => {
         if (!obj.error) {
           this.url = obj.image
-          this.$emit('save', obj.image, start)
+          this.$emit('save', obj.image)
         }
       })
     }
@@ -59,7 +58,6 @@ export default {
 .video-to-gif {
   max-width: 1000px;
   max-height: 800px;
-  padding-top: 50px;
   img {
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.5);
